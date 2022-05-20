@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../css/products.css";
 
 function Products() {
@@ -21,12 +22,6 @@ function Products() {
       );
   }, []);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <div className="bg-color">
@@ -45,11 +40,13 @@ function Products() {
           <div className="product-cards-box">
             {items.map((item) => {
               return (
-                <div className="card" key={item.id}>
-                  <img src={item.imageUrl} alt={item.altTxt} />
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-                </div>
+                <Link to={`/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                  <div className="card" key={item._id}>
+                    <img src={item.imageUrl} alt={item.altTxt} />
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </Link>
               );
             })}
           </div>

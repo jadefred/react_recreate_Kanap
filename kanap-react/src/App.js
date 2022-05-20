@@ -4,6 +4,7 @@ import "./App.css";
 //components
 import Header from "./components/Header";
 import Products from "./components/productPage/Products";
+import OneProduct from "./components/productPage/OneProduct";
 import Footer from "./components/Footer";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Products />} />
+          <Route path="/:id" element={<OneProduct />} />
         </Routes>
       </Router>
       <Footer />
