@@ -45,7 +45,7 @@ function Products() {
           <div className="product-cards-box">
             {items.map((item) => {
               return (
-                <div className="card" key={item.name}>
+                <div className="card" key={item.id}>
                   <img src={item.imageUrl} alt={item.altTxt} />
                   <h3>{item.name}</h3>
                   <p>{item.description}</p>

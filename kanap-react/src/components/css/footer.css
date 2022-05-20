@@ -1,0 +1,31 @@
+.upper-footer {
+  width: 100%;
+  background-color: var(--footer-main-color);
+}
+
+.upper-footer-content-box {
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upper-footer-content-box img {
+  height: 100px;
+}
+
+.upper-footer-content-box p {
+  color: var(--footer-text-color);
+  font-size: 14px;
+}
+
+.lower-footer {
+  width: 100%;
+  background-color: var(--footer-secondary-color);
+}
+
+.lower-footer {
+  color: var(--footer-text-color);
+  padding: 2rem 0;
+  padding-left: 3rem;
+}
