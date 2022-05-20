@@ -21,4 +21,5 @@ html {
 
 body {
   width: 100%;
+  background-color: var(--main-color);
 }
