@@ -1,0 +1,24 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --main-color: #3498db;
+  --secondary-color: #2c3e50;
+  --text-color: #3d4c68;
+  --footer-text-color: #a6b0b3;
+  --footer-main-color: #3d424f;
+  --footer-secondary-color: #2d2f3e;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  width: 100%;
+}
