@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./css/header.css";
 import { ReactComponent as AdressIcon } from "../assets/images/icons/adress.svg";
 import { ReactComponent as MailIcon } from "../assets/images/icons/mail.svg";
@@ -23,9 +24,15 @@ function Header() {
       </div>
 
       <nav>
-        <img src={logo} alt="logo de kanap" />
+        <Link to={"/"}>
+          <img src={logo} alt="logo de kanap" />
+        </Link>
+
         <div className="links">
-          <p>Acceuil</p>
+          <Link to={"/"} style={{ textDecoration: "none", color: "inherit" }}>
+            <p>Acceuil</p>
+          </Link>
+
           <p>Panier</p>
         </div>
       </nav>
