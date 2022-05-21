@@ -8,18 +8,15 @@ function Products() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    const getAllProduct = async () => {
+      const response = await fetch("http://localhost:3000/api/products");
+      const data = await response.json();
+
+      setItems(data);
+      setIsLoaded(true);
+    };
+
+    getAllProduct().catch((e) => setError(e));
   }, []);
 
   return (

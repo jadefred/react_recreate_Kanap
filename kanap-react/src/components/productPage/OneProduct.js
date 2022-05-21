@@ -11,18 +11,15 @@ function OneProduct(props) {
   const [missingColor, setMissingColor] = useState(false);
   const [missingQuantity, setMissingQuantity] = useState(false);
 
-  //fetch prouduct API by id
   useEffect(() => {
-    fetch(`http://localhost:3000/api/products/${id}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setItem(result);
-        },
-        (error) => {
-          setError(error);
-        }
-      );
+    const getOneProduct = async () => {
+      const response = await fetch(`http://localhost:3000/api/products/${id}`);
+      const data = await response.json();
+
+      setItem(data);
+    };
+
+    getOneProduct().catch((e) => setError(e));
   }, []);
 
   //pop warning message when the color / quantity is not correct, hide it when client modify them

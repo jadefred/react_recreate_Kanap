@@ -1,36 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../css/cart.css";
 
-function Cart() {
+function Cart(props) {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const getAllProduct = async () => {
+      const response = await fetch("http://localhost:3000/api/products");
+      const data = await response.json();
+
+      setItems(data);
+      setIsLoaded(true);
+    };
+
+    getAllProduct().catch((e) => setError(e));
+  }, []);
+
   return (
     <>
       <div className="cart-box">
         <h1>Votre panier</h1>
 
-        {/* sleected product */}
-        <div className="cart--card-of-product">
-          <div className="cart--card-of-product-img-box">
-            <img src="http://localhost:3000/images/kanap01.jpeg" alt="alt text" />
-          </div>
+        {/* selected product, display when LS is presented and data is loaded */}
+        {props.selectedProducts.length > 0 &&
+          isLoaded &&
+          props.selectedProducts.map((i) => {
+            return (
+              <div className="cart--card-of-product" key={i._id}>
+                <div className="cart--card-of-product-img-box">
+                  <img
+                    src={items.find((obj) => obj._id === i._id).imageUrl}
+                    alt={items.find((obj) => obj._id === i._id).altTxt}
+                  />
+                </div>
 
-          <div className="cart--card-of-product-info">
-            <div className="cart--card-of-product-info-description-box">
-              <h2>Kanap Sinopé</h2>
-              <p>Green</p>
-              <p>1200€</p>
-            </div>
+                <div className="cart--card-of-product-info">
+                  <div className="cart--card-of-product-info-description-box">
+                    <h2>{i.name}</h2>
+                    <p>{i.color}</p>
+                    <p>{items.find((obj) => obj._id === i._id).price}€</p>
+                  </div>
 
-            <div className="cart--card-of-product-info-setting-box">
-              <div className="cart--card-of-product-info__quantity">
-                <p>Qté : </p>
-                <input type="number" name="itemQuantity" min="1" max="100" value="2" />
+                  <div className="cart--card-of-product-info-setting-box">
+                    <div className="cart--card-of-product-info__quantity">
+                      <p>Qté : </p>
+                      <input type="number" name="itemQuantity" min="1" max="100" value={i.quantity} />
+                    </div>
+                    <div className="cart--card-of-product-info__delete">
+                      <p>Supprimer</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="cart--card-of-product-info__delete">
-                <p>Supprimer</p>
-              </div>
-            </div>
-          </div>
-        </div>
+            );
+          })}
 
         <div className="cart--card-of-price">
           <p>Total (0 articles) : 0.00 €</p>
@@ -39,7 +64,7 @@ function Cart() {
         {/* client info form */}
 
         <div className="cart--card-of-order">
-          <form action="get" disable={false}>
+          <form action="get">
             <div className="cart--card-of-order__question">
               <label htmlFor="firstName">Prénom: </label>
               <input type="text" name="firstName" id="firstName" required />
