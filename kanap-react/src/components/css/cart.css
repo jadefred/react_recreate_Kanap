@@ -1,0 +1,86 @@
+.cart-box {
+  color: white;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 25px;
+}
+
+.cart-box h1 {
+  padding: 7rem 0;
+  text-align: center;
+  font-size: 48px;
+}
+
+.cart--card-of-product {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid white;
+  padding-top: 35px;
+  margin-bottom: 30px;
+}
+
+.cart--card-of-product-img-box {
+  width: 25%;
+}
+
+.cart--card-of-product-img-box img {
+  width: 100%;
+  border-radius: 25px;
+}
+
+.cart--card-of-product-info {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cart--card-of-product-info-description-box h2 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+
+.cart--card-of-product-info-description-box p {
+  font-size: 16px;
+  padding-top: 0.5rem;
+}
+
+.cart--card-of-product-info__quantity {
+  display: flex;
+  padding-top: 1rem;
+}
+
+.cart--card-of-product-info__quantity p {
+  margin-right: 10px;
+  display: flex;
+}
+
+.cart--card-of-product-info__quantity input {
+  color: var(--footer-secondary-color);
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  border-radius: 20px;
+  border: 1px solid #767676;
+  text-align: center;
+  text-align-last: center;
+}
+
+.cart--card-of-product-info__delete p:hover {
+  font-weight: 700;
+}
+
+.cart--card-of-price {
+  border-top: 1px solid white;
+  padding-top: 35px;
+}
+
+.cart--card-of-price p {
+  text-align: end;
+  font-size: 22px;
+}
+
+.cart--card-of-product-info__delete p {
+  margin-bottom: 0.5rem;
+}
