@@ -5,6 +5,8 @@
   padding: 0 25px;
 }
 
+/* card of product and total */
+
 .cart-box h1 {
   padding: 7rem 0;
   text-align: center;
@@ -83,4 +85,52 @@
 
 .cart--card-of-product-info__delete p {
   margin-bottom: 0.5rem;
+}
+
+/* order form */
+.cart--card-of-order {
+  display: flex;
+  justify-content: center;
+  margin-top: 90px;
+}
+
+.cart--card-of-order form {
+  width: 50%;
+}
+
+.cart--card-of-order__question {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.cart--card-of-order__question input {
+  border-radius: 13px;
+  border: 0;
+  height: 26px;
+  margin-top: 4px;
+}
+
+.cart--card-of-order__question p {
+  margin: 0;
+  color: #fbbcbc;
+  font-size: 15px;
+  margin-left: 8px;
+}
+
+.cart--card-of-order__submit {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.cart--card-of-order__submit input {
+  font-size: 22px;
+  border-radius: 40px;
+  border: 0;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 18px 28px;
+  cursor: pointer;
+  margin-top: 40px;
 }
