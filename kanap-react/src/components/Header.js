@@ -33,7 +33,9 @@ function Header() {
             <p>Acceuil</p>
           </Link>
 
-          <p>Panier</p>
+          <Link to={"/cart"} style={{ textDecoration: "none", color: "inherit" }}>
+            <p>Panier</p>
+          </Link>
         </div>
       </nav>
       <img src={banner} alt="banniere de kanap" className="banner" />

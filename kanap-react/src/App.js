@@ -6,10 +6,8 @@ import "./App.css";
 import Header from "./components/Header";
 import Products from "./components/productPage/Products";
 import OneProduct from "./components/productPage/OneProduct";
+import Cart from "./components/productPage/Cart";
 import Footer from "./components/Footer";
-
-//add use status for the page - OneProduct, when it add to bag, change the stats of it parent - app
-//pass states as props
 
 function App() {
   //state to save selected product - initial value is null or any products saved in LS
@@ -27,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Products />} />
           <Route path="/:id" element={<OneProduct selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
+          <Route path="/cart" element={<Cart selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
         </Routes>
       </Router>
       <Footer />
