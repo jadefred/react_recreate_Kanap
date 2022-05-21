@@ -67,3 +67,13 @@
 #add-to-bag-btn-box button:hover {
   box-shadow: 0px 0px 14px 6px #0012be;
 }
+
+#warning-msg-product {
+  text-align: center;
+}
+
+#warning-msg-product p {
+  margin-top: 1rem;
+  color: #ff80c1;
+  font-size: 16px;
+}

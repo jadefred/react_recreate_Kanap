@@ -59,6 +59,7 @@
 }
 
 .card p {
+  width: 90%;
   text-align: center;
   padding-left: 23px;
   padding-right: 23px;
