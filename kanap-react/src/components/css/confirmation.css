@@ -1,0 +1,18 @@
+.confirmation-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 85px;
+  margin-bottom: 85px;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 25px;
+}
+
+.confirmation-box p {
+  background-color: white;
+  color: #3d424f;
+  text-align: center;
+  font-weight: 500;
+  padding: 30px;
+  border-radius: 25px;
+}

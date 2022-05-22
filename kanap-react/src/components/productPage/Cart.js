@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import "../css/cart.css";
 
 function Cart(props) {
@@ -66,6 +67,7 @@ function Cart(props) {
   const [errorMsg, setErrorMsg] = useState({ firstName: "", lastName: "", address: "", city: "", email: "" });
   //const inputName = ["firstName", "lastName", "address", "city", "email"];
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  let navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -101,6 +103,41 @@ function Cart(props) {
       if (emailPattern.test(e.target.email.value) === false) {
         setErrorMsg({ ...errorMsg, email: "L'adresse email est incorrect. Veuillez la modifier" });
       }
+    } else {
+      //prepare an array of selected products' id for POST
+      let products = [];
+      for (const i of props.selectedProducts) {
+        products.push(i._id);
+      }
+
+      //object which contain contact of client and his products' id
+      const order = {
+        contact: formValue,
+        products: products,
+      };
+
+      //Prepare post object
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order),
+      };
+
+      //get confirmation id from server
+      placeOrder(options);
+    }
+  }
+
+  //async to POST data to server
+  async function placeOrder(options) {
+    try {
+      const response = await fetch("http://localhost:3000/api/products/order", options);
+      const data = await response.json();
+
+      //redirect to confirmation page with query of order id
+      navigate("/confirmation/" + data.orderId);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -175,31 +212,26 @@ function Cart(props) {
               <label htmlFor="firstName">Prénom: </label>
               <input onChange={handleFormInput} type="text" name="firstName" id="firstName" required />
               {errorMsg.firstName !== "" && <p>{errorMsg.firstName}</p>}
-              <p id="firstNameErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="lastName">Nom: </label>
               <input onChange={handleFormInput} type="text" name="lastName" id="lastName" required />
               {errorMsg.lastName !== "" && <p>{errorMsg.lastName}</p>}
-              <p id="lastNameErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="address">Adresse: </label>
               <input onChange={handleFormInput} type="text" name="address" id="address" required />
               {errorMsg.address !== "" && <p>{errorMsg.address}</p>}
-              <p id="addressErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="city">Ville: </label>
               <input onChange={handleFormInput} type="text" name="city" id="city" required />
               {errorMsg.city !== "" && <p>{errorMsg.city}</p>}
-              <p id="cityErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="email">Email: </label>
               <input onChange={handleFormInput} type="text" name="email" id="email" required />
               {errorMsg.email !== "" && <p>{errorMsg.email}</p>}
-              <p id="emailErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__submit">
               <input type="submit" value="Commander !" id="order" />
