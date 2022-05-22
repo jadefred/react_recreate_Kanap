@@ -6,6 +6,7 @@ function Cart(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
+  //fetch all products api
   useEffect(() => {
     const getAllProduct = async () => {
       const response = await fetch("http://localhost:3000/api/products");
@@ -14,9 +15,21 @@ function Cart(props) {
       setItems(data);
       setIsLoaded(true);
     };
-
     getAllProduct().catch((e) => setError(e));
   }, []);
+
+  //to watch quantity onChange
+  function quantityChange(event, index) {
+    if (event.target.value <= 0 || event.target.value > 100) {
+      event.target.value = props.selectedProducts[index].quantity;
+    } else {
+      props.setSelectProducts((prev) => {
+        const newArr = [...prev];
+        newArr[index].quantity = event.target.value;
+        return newArr;
+      });
+    }
+  }
 
   return (
     <>
@@ -26,7 +39,7 @@ function Cart(props) {
         {/* selected product, display when LS is presented and data is loaded */}
         {props.selectedProducts.length > 0 &&
           isLoaded &&
-          props.selectedProducts.map((i) => {
+          props.selectedProducts.map((i, index) => {
             return (
               <div className="cart--card-of-product" key={i._id}>
                 <div className="cart--card-of-product-img-box">
@@ -46,7 +59,15 @@ function Cart(props) {
                   <div className="cart--card-of-product-info-setting-box">
                     <div className="cart--card-of-product-info__quantity">
                       <p>Qté : </p>
-                      <input type="number" name="itemQuantity" min="1" max="100" value={i.quantity} />
+                      <input
+                        onChange={(event) => quantityChange(event, index)}
+                        type="number"
+                        name="itemQuantity"
+                        min="1"
+                        max="100"
+                        value={i.quantity}
+                        required
+                      />
                     </div>
                     <div className="cart--card-of-product-info__delete">
                       <p>Supprimer</p>
