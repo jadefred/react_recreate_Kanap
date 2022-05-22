@@ -41,3 +41,16 @@ nav img {
   height: 550px;
   object-fit: cover;
 }
+
+/* media query */
+@media only screen and (max-width: 600px) {
+  .contact-bar {
+    flex-direction: column;
+  }
+  .contact-bar p {
+    margin: auto;
+  }
+  nav {
+    flex-direction: column;
+  }
+}

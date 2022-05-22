@@ -80,20 +80,20 @@ function OneProduct(props) {
       {error && <div>Error: {error.message}</div>}
 
       {item && (
-        <div id="product-wrapper">
-          <div id="img-box">
+        <div className="product-wrapper">
+          <div className="img-box">
             <img src={item.imageUrl} alt={item.altTxt} />
           </div>
-          <div id="one-product-name-box">
+          <div className="one-product-name-box">
             <h1>{item.name}</h1>
             <p>Prix : {item.price}€</p>
           </div>
-          <div id="one-product-description-box">
+          <div className="one-product-description-box">
             <h2>Description :</h2>
             <p>{item.description}</p>
           </div>
-          <div id="one-product-color-quantity-box">
-            <div id="color-selection">
+          <div className="one-product-color-quantity-box">
+            <div className="color-selection">
               <label htmlFor="color-select">Choisir une couleur : </label>
               <select name="color-select" id="colors" onChange={getColor}>
                 <option value="">--SVP, choisissez une couleur--</option>
@@ -106,7 +106,7 @@ function OneProduct(props) {
                 })}
               </select>
             </div>
-            <div id="quantity-selection">
+            <div className="quantity-selection">
               <label htmlFor="itemQuantity">Nombre d'article(s) (1-100) :</label>
               <input
                 type="number"
@@ -119,11 +119,11 @@ function OneProduct(props) {
               />
             </div>
           </div>
-          <div id="add-to-bag-btn-box">
+          <div className="add-to-bag-btn-box">
             <button onClick={addToCart}>Ajouter au panier</button>
           </div>
           {/* warning message appear only when input is incorrect and client want to submit */}
-          <div id="warning-msg-product">
+          <div className="warning-msg-product">
             {missingColor && <p>Choisissez une couleur</p>}
             {missingQuantity && <p>La quantité est incorrecte</p>}
           </div>

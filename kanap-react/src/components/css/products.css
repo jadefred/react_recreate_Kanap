@@ -1,3 +1,9 @@
+.product-cards-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 25px;
+}
+
 .bg-color {
   background-color: var(--main-color);
   color: white;
@@ -18,14 +24,24 @@
   font-weight: 400;
 }
 
+/*removed all changed*/
 /* card css */
 .product-cards-box {
-  padding-bottom: 6rem;
+  margin-bottom: 135px;
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 90%;
   margin: auto;
+  column-gap: 2rem;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 250px;
 }
 
 .card {
@@ -35,7 +51,6 @@
   align-items: center;
   margin-bottom: 40px;
   padding-top: 25px;
-  width: 290px;
   border-radius: 10px;
 }
 
@@ -71,4 +86,11 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   white-space: normal;
+}
+
+/* error */
+.error p {
+  text-align: center;
+  font-size: 40px;
+  margin: 9rem 0;
 }

@@ -21,6 +21,7 @@ function Products() {
 
   return (
     <>
+      <div className="product-cards-wrapper"></div>
       <div className="bg-color">
         <div className="title">
           <h1>Nos produits</h1>
@@ -28,13 +29,19 @@ function Products() {
         </div>
 
         {/* render if error is occured */}
-        {error && <div>Error: {error.message}</div>}
+        {error && (
+          <div className="error">
+            <p>
+              Problème de chargement <br /> Veuillez ressayer
+            </p>
+          </div>
+        )}
 
         {items.length > 0 && isLoaded && (
           <div className="product-cards-box">
             {items.map((item) => {
               return (
-                <Link to={`/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <Link to={`/${item._id}`} className="link">
                   <div className="card" key={item._id}>
                     <img src={item.imageUrl} alt={item.altTxt} />
                     <h3>{item.name}</h3>
@@ -46,6 +53,7 @@ function Products() {
           </div>
         )}
       </div>
+      <div className="product-cards-wrapper"></div>
     </>
   );
 }

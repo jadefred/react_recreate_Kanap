@@ -1,4 +1,4 @@
-#product-wrapper {
+.product-wrapper {
   padding: 7rem;
   width: 70%;
   margin: auto;
@@ -6,39 +6,39 @@
   flex-direction: column;
 }
 
-#img-box {
+.img-box {
   width: 100%;
 }
 
-#img-box img {
+.img-box img {
   width: 100%;
   border-radius: 30px;
 }
 
-#one-product-name-box,
-#one-product-description-box,
-#one-product-color-quantity-box {
+.one-product-name-box,
+.one-product-description-box,
+.one-product-color-quantity-box {
   color: white;
   border-bottom: 1px solid white;
 }
 
-#one-product-name-box h1,
-#one-product-description-box h2 {
+.one-product-name-box h1,
+.one-product-description-box h2 {
   padding: 1rem 0;
 }
 
-#one-product-name-box p,
-#one-product-description-box p {
+.one-product-name-box p,
+.one-product-description-box p {
   margin-bottom: 1rem;
 }
 
-#color-selection,
-#quantity-selection {
+.color-selection,
+.quantity-selection {
   margin: 1rem 0;
 }
 
-#color-selection select,
-#quantity-selection input {
+.color-selection select,
+.quantity-selection input {
   color: var(--footer-secondary-color);
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
@@ -48,13 +48,13 @@
   text-align-last: center;
 }
 
-#add-to-bag-btn-box {
+.add-to-bag-btn-box {
   display: flex;
   justify-content: center;
   padding-top: 32px;
 }
 
-#add-to-bag-btn-box button {
+.add-to-bag-btn-box button {
   font-size: 22px;
   border-radius: 40px;
   border: 0;
@@ -64,16 +64,25 @@
   cursor: pointer;
 }
 
-#add-to-bag-btn-box button:hover {
+.add-to-bag-btn-box button:hover {
   box-shadow: 0px 0px 14px 6px #0012be;
 }
 
-#warning-msg-product {
+.warning-msg-product {
   text-align: center;
 }
 
-#warning-msg-product p {
+.warning-msg-product p {
   margin-top: 1rem;
   color: #fbbcbc;
   font-size: 16px;
+}
+
+/* media query */
+@media only screen and (max-width: 1000px) {
+  .product-wrapper {
+    width: 80%;
+    padding: 7rem 0;
+    min-width: 300px;
+  }
 }
