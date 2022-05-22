@@ -5,6 +5,7 @@ function Cart(props) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   //fetch all products api
   useEffect(() => {
@@ -17,6 +18,15 @@ function Cart(props) {
     };
     getAllProduct().catch((e) => setError(e));
   }, []);
+
+  //update total quantity when first render the page and whenever change of items quantity
+  useEffect(() => {
+    if (props.selectedProducts !== null && isLoaded) {
+      setTotalQuantity(props.selectedProducts.reduce((prev, current) => prev + parseInt(current.quantity), 0));
+    } else {
+      setTotalQuantity(0);
+    }
+  }, [isLoaded, props.selectedProducts]);
 
   //to watch quantity onChange
   function quantityChange(event, index) {
@@ -36,8 +46,12 @@ function Cart(props) {
       <div className="cart-box">
         <h1>Votre panier</h1>
 
+        {/* add error block */}
+
+        {props.selectedProducts === null && <div>Votre Panier est vide</div>}
+
         {/* selected product, display when LS is presented and data is loaded */}
-        {props.selectedProducts.length > 0 &&
+        {props.selectedProducts !== null &&
           isLoaded &&
           props.selectedProducts.map((i, index) => {
             return (
@@ -53,7 +67,7 @@ function Cart(props) {
                   <div className="cart--card-of-product-info-description-box">
                     <h2>{i.name}</h2>
                     <p>{i.color}</p>
-                    <p>{items.find((obj) => obj._id === i._id).price}€</p>
+                    <p>{items.find((obj) => obj._id === i._id).price * i.quantity}€</p>
                   </div>
 
                   <div className="cart--card-of-product-info-setting-box">
@@ -79,7 +93,7 @@ function Cart(props) {
           })}
 
         <div className="cart--card-of-price">
-          <p>Total (0 articles) : 0.00 €</p>
+          <p>Total ({totalQuantity} articles) : 0.00 €</p>
         </div>
 
         {/* client info form */}

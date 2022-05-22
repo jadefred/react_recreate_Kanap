@@ -30,10 +30,7 @@ function Products() {
         {/* render if error is occured */}
         {error && <div>Error: {error.message}</div>}
 
-        {/* loading block */}
-        {!isLoaded && <div>Loading...</div>}
-
-        {items.length > 0 && (
+        {items.length > 0 && isLoaded && (
           <div className="product-cards-box">
             {items.map((item) => {
               return (
