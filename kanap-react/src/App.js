@@ -7,6 +7,7 @@ import Products from "./components/productPage/Products";
 import OneProduct from "./components/productPage/OneProduct";
 import Cart from "./components/productPage/Cart";
 import Confirmation from "./components/productPage/Confirmation";
+import NotFound from "./components/productPage/NotFound";
 import Footer from "./components/Footer";
 
 function App() {
@@ -24,9 +25,13 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Products />} />
-          <Route path="/:id" element={<OneProduct selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
+          <Route
+            path="/products/:id"
+            element={<OneProduct selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />}
+          />
           <Route path="/cart" element={<Cart selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
           <Route path="/confirmation/:orderId" element={<Confirmation />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
       <Footer />
