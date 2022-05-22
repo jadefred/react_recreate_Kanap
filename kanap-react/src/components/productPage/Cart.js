@@ -6,6 +6,7 @@ function Cart(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   //fetch all products api
   useEffect(() => {
@@ -19,16 +20,26 @@ function Cart(props) {
     getAllProduct().catch((e) => setError(e));
   }, []);
 
-  //update total quantity when first render the page and whenever change of items quantity
+  //function to setTotalPrice by mapping out selected product, price times quantity, finally reduce to sum all num
+  function getTotalPrice() {
+    const priceOfEachItem = props.selectedProducts.map((i) => {
+      return items.find((obj) => obj._id === i._id).price * i.quantity;
+    });
+    const result = priceOfEachItem.reduce((prev, current) => prev + parseInt(current), 0);
+    setTotalPrice(result);
+  }
+
+  //update total quantity and total price when first render the page and whenever change of items quantity
   useEffect(() => {
     if (props.selectedProducts !== null && isLoaded) {
       setTotalQuantity(props.selectedProducts.reduce((prev, current) => prev + parseInt(current.quantity), 0));
+      getTotalPrice();
     } else {
       setTotalQuantity(0);
     }
   }, [isLoaded, props.selectedProducts]);
 
-  //to watch quantity onChange
+  //onChange function to modify quantity
   function quantityChange(event, index) {
     if (event.target.value <= 0 || event.target.value > 100) {
       event.target.value = props.selectedProducts[index].quantity;
@@ -93,7 +104,9 @@ function Cart(props) {
           })}
 
         <div className="cart--card-of-price">
-          <p>Total ({totalQuantity} articles) : 0.00 €</p>
+          <p>
+            Total ({totalQuantity} articles) : {totalPrice}.00 €
+          </p>
         </div>
 
         {/* client info form */}
