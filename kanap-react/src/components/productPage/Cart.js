@@ -52,6 +52,15 @@ function Cart(props) {
     }
   }
 
+  //onClick to delete product
+  function deleteProduct(index) {
+    props.setSelectProducts((prev) => {
+      const newArr = [...prev];
+      newArr.splice(index, 1);
+      return newArr;
+    });
+  }
+
   return (
     <>
       <div className="cart-box">
@@ -95,7 +104,7 @@ function Cart(props) {
                       />
                     </div>
                     <div className="cart--card-of-product-info__delete">
-                      <p>Supprimer</p>
+                      <p onClick={() => deleteProduct(index)}>Supprimer</p>
                     </div>
                   </div>
                 </div>
