@@ -134,6 +134,9 @@ function Cart(props) {
       const response = await fetch("http://localhost:3000/api/products/order", options);
       const data = await response.json();
 
+      //clear LS by update setState
+      props.setSelectProducts([]);
+
       //redirect to confirmation page with query of order id
       navigate("/confirmation/" + data.orderId);
     } catch (e) {

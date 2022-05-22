@@ -27,7 +27,7 @@ function App() {
           <Route path="/" element={<Products />} />
           <Route path="/:id" element={<OneProduct selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
           <Route path="/cart" element={<Cart selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
-          <Route path="/confirmation/:orderId" element={<Confirmation />} /> {/* confirmation.html?orderid=" + data.orderId*/}
+          <Route path="/confirmation/:orderId" element={<Confirmation />} />
         </Routes>
       </Router>
       <Footer />
