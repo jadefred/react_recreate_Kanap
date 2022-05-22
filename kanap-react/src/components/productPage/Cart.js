@@ -61,6 +61,55 @@ function Cart(props) {
     });
   }
 
+  // Form component
+  const [formValue, setFormValue] = useState({ firstName: "", lastName: "", address: "", city: "", email: "" });
+  const [errorMsg, setErrorMsg] = useState({ firstName: "", lastName: "", address: "", city: "", email: "" });
+  //const inputName = ["firstName", "lastName", "address", "city", "email"];
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // for (const i of inputName) {
+    //   if (e.target[i].value === "") {
+    //     setErrorMsg({ ...errorMsg, [i]: `Veuillez entrer votre ${i}` });
+    //   }
+    // }
+
+    if (
+      !e.target.firstName.value ||
+      !e.target.lastName.value ||
+      !e.target.address.value ||
+      !e.target.city.value ||
+      !e.target.email.value ||
+      emailPattern.test(e.target.email.value) === false
+    ) {
+      if (!e.target.firstName.value) {
+        setErrorMsg({ ...errorMsg, firstName: "Veuillez entrer votre prénom" });
+      }
+      if (!e.target.lastName.value) {
+        setErrorMsg({ ...errorMsg, lastName: "Veuillez entrer votre nom" });
+      }
+      if (!e.target.address.value) {
+        setErrorMsg({ ...errorMsg, address: "Veuillez entrer votre adresse" });
+      }
+      if (!e.target.city.value) {
+        setErrorMsg({ ...errorMsg, city: "Veuillez entrer votre ville" });
+      }
+      if (!e.target.email.value) {
+        setErrorMsg({ ...errorMsg, email: "Veuillez entrer votre email" });
+      }
+      if (emailPattern.test(e.target.email.value) === false) {
+        setErrorMsg({ ...errorMsg, email: "L'adresse email est incorrect. Veuillez la modifier" });
+      }
+    }
+  }
+
+  function handleFormInput(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormValue({ ...formValue, [name]: value });
+  }
+
   return (
     <>
       <div className="cart-box">
@@ -121,30 +170,35 @@ function Cart(props) {
         {/* client info form */}
 
         <div className="cart--card-of-order">
-          <form action="get">
+          <form action="get" onSubmit={handleSubmit}>
             <div className="cart--card-of-order__question">
               <label htmlFor="firstName">Prénom: </label>
-              <input type="text" name="firstName" id="firstName" required />
+              <input onChange={handleFormInput} type="text" name="firstName" id="firstName" required />
+              {errorMsg.firstName !== "" && <p>{errorMsg.firstName}</p>}
               <p id="firstNameErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="lastName">Nom: </label>
-              <input type="text" name="lastName" id="lastName" required />
+              <input onChange={handleFormInput} type="text" name="lastName" id="lastName" required />
+              {errorMsg.lastName !== "" && <p>{errorMsg.lastName}</p>}
               <p id="lastNameErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="address">Adresse: </label>
-              <input type="text" name="address" id="address" required />
+              <input onChange={handleFormInput} type="text" name="address" id="address" required />
+              {errorMsg.address !== "" && <p>{errorMsg.address}</p>}
               <p id="addressErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="city">Ville: </label>
-              <input type="text" name="city" id="city" required />
+              <input onChange={handleFormInput} type="text" name="city" id="city" required />
+              {errorMsg.city !== "" && <p>{errorMsg.city}</p>}
               <p id="cityErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__question">
               <label htmlFor="email">Email: </label>
-              <input type="text" name="email" id="email" required />
+              <input onChange={handleFormInput} type="text" name="email" id="email" required />
+              {errorMsg.email !== "" && <p>{errorMsg.email}</p>}
               <p id="emailErrorMsg"></p>
             </div>
             <div className="cart--card-of-order__submit">
