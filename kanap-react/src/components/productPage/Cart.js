@@ -22,13 +22,22 @@ function Cart(props) {
     getAllProduct().catch((e) => setError(e));
   }, []);
 
+  const showEmptyMsg = props.selectedProducts?.length === 0 || props.selectedProducts === null ? true : false;
+
   return (
     <>
       <div className="cart-box">
         <h1>Votre panier</h1>
 
-        {/* add error block */}
-        {!props.selectedProducts && <div>Votre Panier est vide</div>}
+        {/* message when error occur */}
+        {error && (
+          <p className="error-msg">
+            Problème de chargement <br /> Veuillez ressayer
+          </p>
+        )}
+
+        {/* show msg when cart is empty */}
+        {!error && showEmptyMsg && <p className="error-msg">Votre panier est vide</p>}
 
         {/* selected product, display when LS is presented and data is loaded */}
         {props.selectedProducts !== null && isLoaded && (

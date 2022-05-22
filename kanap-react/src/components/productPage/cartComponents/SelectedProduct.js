@@ -58,7 +58,7 @@ function SelectedProduct(props) {
 
             <div className="cart--card-of-product-info">
               <div className="cart--card-of-product-info-description-box">
-                <h2>{i.name}</h2>
+                <h2>{props.items.find((obj) => obj._id === i._id).name}</h2>
                 <p>{i.color}</p>
                 <p>{props.items.find((obj) => obj._id === i._id).price * i.quantity}€</p>
               </div>
