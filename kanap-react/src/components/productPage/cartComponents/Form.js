@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 function Form(props) {
@@ -7,15 +7,8 @@ function Form(props) {
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   let navigate = useNavigate();
 
-  //const inputName = ["firstName", "lastName", "address", "city", "email"];
   function handleSubmit(e) {
     e.preventDefault();
-    // for (const i of inputName) {
-    //   if (e.target[i].value === "") {
-    //     setErrorMsg({ ...errorMsg, [i]: `Veuillez entrer votre ${i}` });
-    //   }
-    // }
-
     if (
       !formValue.firstName ||
       !formValue.lastName ||
@@ -42,7 +35,6 @@ function Form(props) {
       if (emailPattern.test(formValue.email) === false) {
         setErrorMsg({ ...errorMsg, email: "L'adresse email est incorrect. Veuillez la modifier" });
       }
-      console.log(formValue);
     } else {
       //prepare an array of selected products' id for POST
       let products = [];
