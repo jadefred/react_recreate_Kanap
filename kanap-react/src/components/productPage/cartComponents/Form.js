@@ -17,31 +17,32 @@ function Form(props) {
     // }
 
     if (
-      !e.target.firstName.value ||
-      !e.target.lastName.value ||
-      !e.target.address.value ||
-      !e.target.city.value ||
-      !e.target.email.value ||
-      emailPattern.test(e.target.email.value) === false
+      !formValue.firstName ||
+      !formValue.lastName ||
+      !formValue.address ||
+      !formValue.city ||
+      !formValue.email ||
+      emailPattern.test(formValue.email) === false
     ) {
-      if (!e.target.firstName.value) {
+      if (!formValue.firstName) {
         setErrorMsg({ ...errorMsg, firstName: "Veuillez entrer votre prénom" });
       }
-      if (!e.target.lastName.value) {
+      if (!formValue.lastName) {
         setErrorMsg({ ...errorMsg, lastName: "Veuillez entrer votre nom" });
       }
-      if (!e.target.address.value) {
+      if (!formValue.address) {
         setErrorMsg({ ...errorMsg, address: "Veuillez entrer votre adresse" });
       }
-      if (!e.target.city.value) {
+      if (!formValue.city) {
         setErrorMsg({ ...errorMsg, city: "Veuillez entrer votre ville" });
       }
-      if (!e.target.email.value) {
+      if (!formValue.email) {
         setErrorMsg({ ...errorMsg, email: "Veuillez entrer votre email" });
       }
-      if (emailPattern.test(e.target.email.value) === false) {
+      if (emailPattern.test(formValue.email) === false) {
         setErrorMsg({ ...errorMsg, email: "L'adresse email est incorrect. Veuillez la modifier" });
       }
+      console.log(formValue);
     } else {
       //prepare an array of selected products' id for POST
       let products = [];
