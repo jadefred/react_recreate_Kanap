@@ -12,13 +12,13 @@ function Header() {
     <>
       <div className="contact-bar">
         <p>
-          <PhoneIcon className="icons" /> 01 23 45 67 89
+          <PhoneIcon className="icons" data-testid="svg-1" /> 01 23 45 67 89
         </p>
         <p>
-          <MailIcon className="icons" /> support@name.com
+          <MailIcon className="icons" data-testid="svg-2" /> support@name.com
         </p>
         <p>
-          <AdressIcon className="icons" />
+          <AdressIcon className="icons" data-testid="svg-3" />
           01 23 45 67 89
         </p>
       </div>
@@ -30,11 +30,11 @@ function Header() {
 
         <div className="links">
           <Link to={"/"} style={{ textDecoration: "none", color: "inherit" }}>
-            <p>Acceuil</p>
+            <p data-testid="acceuil-btn">Acceuil</p>
           </Link>
 
           <Link to={"/cart"} style={{ textDecoration: "none", color: "inherit" }}>
-            <p>Panier</p>
+            <p data-testid="panier-btn">Panier</p>
           </Link>
         </div>
       </nav>
