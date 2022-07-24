@@ -8,7 +8,7 @@ function Confirmation() {
   return (
     <>
       <div className="confirmation-box">
-        <p>
+        <p data-testid="orderId">
           Commande validée ! <br />
           Votre numéro de commande est : {orderId}
         </p>
