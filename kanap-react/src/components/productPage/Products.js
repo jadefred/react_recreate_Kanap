@@ -7,6 +7,8 @@ function Products() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
+  console.log("Products")
+
   useEffect(() => {
     const getAllProduct = async () => {
       const response = await fetch("http://localhost:3000/api/products");

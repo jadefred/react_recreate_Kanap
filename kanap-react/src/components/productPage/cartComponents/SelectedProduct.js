@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
-function SelectedProduct(props) {
+function SelectedProduct({ selectedProducts, setSelectProducts, items, isLoaded, totalQuantity, setTotalQuantity }) {
   const [totalPrice, setTotalPrice] = useState(0);
 
   //function to setTotalPrice by mapping out selected product, price times quantity, finally reduce to sum all num
-  function getTotalPrice() {
-    const priceOfEachItem = props.selectedProducts.map((i) => {
-      return props.items.find((obj) => obj._id === i._id).price * i.quantity;
+  const getTotalPrice = useCallback(() => {
+    const priceOfEachItem = selectedProducts.map((i) => {
+      return items.find((obj) => obj._id === i._id).price * i.quantity;
     });
     const result = priceOfEachItem.reduce((prev, current) => prev + parseInt(current), 0);
     setTotalPrice(result);
-  }
+  }, [items, selectedProducts]);
 
   //update total quantity and total price when first render the page and whenever change of items quantity
   useEffect(() => {
-    if (props.selectedProducts !== null && props.isLoaded) {
-      props.setTotalQuantity(props.selectedProducts.reduce((prev, current) => prev + parseInt(current.quantity), 0));
+    if (selectedProducts !== null && isLoaded) {
+      setTotalQuantity(selectedProducts.reduce((prev, current) => prev + parseInt(current.quantity), 0));
       getTotalPrice();
     } else {
-      props.setTotalQuantity(0);
+      setTotalQuantity(0);
     }
-  }, [props.isLoaded, props.selectedProducts]);
+  }, [isLoaded, selectedProducts, getTotalPrice, setTotalQuantity]);
 
   //onChange function to modify quantity
   function quantityChange(event, index) {
     if (event.target.value <= 0 || event.target.value > 100) {
-      event.target.value = props.selectedProducts[index].quantity;
+      event.target.value = selectedProducts[index].quantity;
     } else {
-      props.setSelectProducts((prev) => {
+      setSelectProducts((prev) => {
         const newArr = [...prev];
         newArr[index].quantity = event.target.value;
         return newArr;
@@ -37,7 +37,7 @@ function SelectedProduct(props) {
 
   //onClick to delete product
   function deleteProduct(index) {
-    props.setSelectProducts((prev) => {
+    setSelectProducts((prev) => {
       const newArr = [...prev];
       newArr.splice(index, 1);
       return newArr;
@@ -46,21 +46,18 @@ function SelectedProduct(props) {
 
   return (
     <>
-      {props.selectedProducts.map((i, index) => {
+      {selectedProducts.map((i, index) => {
         return (
           <div className="cart--card-of-product" key={i._id}>
             <div className="cart--card-of-product-img-box">
-              <img
-                src={props.items.find((obj) => obj._id === i._id).imageUrl}
-                alt={props.items.find((obj) => obj._id === i._id).altTxt}
-              />
+              <img src={items.find((obj) => obj._id === i._id).imageUrl} alt={items.find((obj) => obj._id === i._id).altTxt} />
             </div>
 
             <div className="cart--card-of-product-info">
               <div className="cart--card-of-product-info-description-box">
-                <h2>{props.items.find((obj) => obj._id === i._id).name}</h2>
+                <h2>{items.find((obj) => obj._id === i._id).name}</h2>
                 <p>{i.color}</p>
-                <p>{props.items.find((obj) => obj._id === i._id).price * i.quantity}€</p>
+                <p>{items.find((obj) => obj._id === i._id).price * i.quantity}€</p>
               </div>
 
               <div className="cart--card-of-product-info-setting-box">
@@ -85,10 +82,10 @@ function SelectedProduct(props) {
         );
       })}
 
-      {props.selectedProducts !== null && props.totalQuantity > 0 && (
+      {selectedProducts !== null && totalQuantity > 0 && (
         <div className="cart--card-of-price">
           <p>
-            Total ({props.totalQuantity} articles) : {totalPrice}.00 €
+            Total ({totalQuantity} articles) : {totalPrice}.00 €
           </p>
         </div>
       )}

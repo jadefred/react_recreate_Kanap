@@ -17,10 +17,14 @@ function OneProduct(props) {
       const data = await response.json();
 
       setItem(data);
+
+      if (!response.ok) {
+        setError(true);
+      }
     };
 
     getOneProduct().catch((e) => setError(e));
-  }, []);
+  }, [id]);
 
   //pop warning message when the color / quantity is not correct, hide it when client modify them
   useEffect(() => {
@@ -77,7 +81,7 @@ function OneProduct(props) {
   return (
     <>
       {/* render if error is occured */}
-      {error && <div>Error: {error.message}</div>}
+      {error && <div>Veuillez réessayer SVP</div>}
 
       {item && (
         <div className="product-wrapper">
