@@ -18,6 +18,10 @@ function Cart(props) {
 
       setItems(data);
       setIsLoaded(true);
+
+      if (!response.ok) {
+        setError(true);
+      }
     };
     getAllProduct().catch((e) => setError(e));
   }, []);

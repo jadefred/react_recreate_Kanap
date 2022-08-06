@@ -68,7 +68,8 @@ describe("Test one product page", () => {
       </Router>
     );
 
-    console.log(global.window.location.href);
+    console.log(window.location.search);
+    console.log(new URLSearchParams(window.location.href))
     //expect(global.window.location.href).toContain("107fb5b75607497b96722bda5b504926");
     //expect(await screen.findByText("Kanap Sinopé")).toBeTruthy();
     await waitFor(() => {

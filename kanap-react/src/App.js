@@ -16,7 +16,7 @@ function App() {
 
   //when children - OneProduct setState, update local storage accordingly
   useEffect(() => {
-    console.log("array fired ");
+    console.log(selectedProducts);
     localStorage.setItem("products", JSON.stringify(selectedProducts));
   }, [selectedProducts]);
 
