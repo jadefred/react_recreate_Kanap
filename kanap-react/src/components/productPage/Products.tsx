@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/products.css";
 
-function Products() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+interface IData {
+  _id: string;
+  imageUrl: string;
+  altTxt: string;
+  name: string;
+  description: string;
+}
 
-  console.log("Products")
+function Products() {
+  const [error, setError] = useState<boolean | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [items, setItems] = useState<IData[]>([]);
 
   useEffect(() => {
     const getAllProduct = async () => {
