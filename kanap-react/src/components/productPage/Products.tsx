@@ -16,18 +16,22 @@ function Products() {
   const [items, setItems] = useState<IData[]>([]);
 
   useEffect(() => {
-    const getAllProduct = async () => {
-      const response = await fetch("http://localhost:3000/api/products");
-      const data = await response.json();
+    const getAllProduct = async (): Promise<void> => {
+      try {
+        const response = await fetch("http://localhost:3000/api/products");
+        const data = await response.json();
 
-      setItems(data);
-      setIsLoaded(true);
-      if (!response.ok) {
+        setItems(data);
+        setIsLoaded(true);
+        if (!response.ok) {
+          setError(true);
+        }
+      } catch (e) {
         setError(true);
       }
     };
 
-    getAllProduct().catch((e) => setError(e));
+    getAllProduct();
   }, []);
 
   return (
