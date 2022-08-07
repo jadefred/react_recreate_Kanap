@@ -2,26 +2,36 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/products.css";
 
-function Products() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+interface IData {
+  _id: string;
+  imageUrl: string;
+  altTxt: string;
+  name: string;
+  description: string;
+}
 
-  console.log("Products")
+function Products() {
+  const [error, setError] = useState<boolean | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [items, setItems] = useState<IData[]>([]);
 
   useEffect(() => {
-    const getAllProduct = async () => {
-      const response = await fetch("http://localhost:3000/api/products");
-      const data = await response.json();
+    const getAllProduct = async (): Promise<void> => {
+      try {
+        const response = await fetch("http://localhost:3000/api/products");
+        const data = await response.json();
 
-      setItems(data);
-      setIsLoaded(true);
-      if (!response.ok) {
+        setItems(data);
+        setIsLoaded(true);
+        if (!response.ok) {
+          setError(true);
+        }
+      } catch (e) {
         setError(true);
       }
     };
 
-    getAllProduct().catch((e) => setError(e));
+    getAllProduct();
   }, []);
 
   return (
