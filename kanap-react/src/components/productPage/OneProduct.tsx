@@ -5,7 +5,6 @@ import { IData, ILocalStorage } from "../../assets/Interface";
 
 interface Props {
   selectedProducts: ILocalStorage["selectedProducts"];
-  //setSelectProducts(selectedProducts: { _id: string; quantity: number; color: string }[]): void;
   setSelectProducts(
     selectedProducts: {
       _id: string;
@@ -76,10 +75,7 @@ const OneProduct: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
           }
           newArr.push(i);
         }
-
         setSelectProducts(newArr);
-
-        console.log(newArr);
       } //if no product is repeated, add new selected product to existing LS array
       else {
         if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);

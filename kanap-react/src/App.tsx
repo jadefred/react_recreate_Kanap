@@ -18,7 +18,6 @@ function App() {
 
   useEffect(() => {
     const lsItem = localStorage.getItem("products");
-    console.log(lsItem);
     if (lsItem && lsItem !== "undefined") {
       setSelectProducts(JSON.parse(lsItem));
     }
@@ -26,7 +25,6 @@ function App() {
 
   //when children - OneProduct setState, update local storage accordingly
   useEffect(() => {
-    console.log("app useEffect trrigered", selectedProducts);
     localStorage.setItem("products", JSON.stringify(selectedProducts));
   }, [selectedProducts]);
 
