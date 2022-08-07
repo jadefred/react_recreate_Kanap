@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import "../css/oneProduct.css";
+import { IData, ILocalStorage } from "../../assets/Interface";
 
-function OneProduct(props) {
-  const { id } = useParams();
-  const [error, setError] = useState(null);
-  const [item, setItem] = useState([]);
-  const [quantity, setQuantity] = useState("");
-  const [color, setColor] = useState("");
-  const [missingColor, setMissingColor] = useState(false);
-  const [missingQuantity, setMissingQuantity] = useState(false);
+interface Props {
+  selectedProducts: ILocalStorage["selectedProducts"];
+  //setSelectProducts(selectedProducts: { _id: string; quantity: number; color: string }[]): void;
+  setSelectProducts(
+    selectedProducts: {
+      _id: string;
+      quantity: number;
+      color: string;
+    }[]
+  ): void;
+}
+
+const OneProduct: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
+  const { id } = useParams<string>();
+  const [error, setError] = useState<boolean | null>(null);
+  const [item, setItem] = useState<IData>();
+  const [quantity, setQuantity] = useState<number>(0);
+  const [color, setColor] = useState<string>("");
+  const [missingColor, setMissingColor] = useState<boolean>(false);
+  const [missingQuantity, setMissingQuantity] = useState<boolean>(false);
 
   useEffect(() => {
     const getOneProduct = async () => {
@@ -35,37 +48,41 @@ function OneProduct(props) {
     setMissingQuantity(false);
   }, [quantity]);
 
-  function getQuantity(e) {
-    setQuantity(e.target.value);
+  function getQuantity(e: React.ChangeEvent<HTMLInputElement>) {
+    setQuantity(parseInt(e.target.value));
   }
 
-  function getColor(e) {
+  function getColor(e: { target: { value: React.SetStateAction<string> } }) {
     setColor(e.target.value);
   }
 
   //add to cart function
-  function addToCart(e) {
+  function addToCart(e: { preventDefault: () => void }) {
     e.preventDefault();
     //check if quantity and color is correct input
     if (quantity > 0 && quantity <= 100 && color) {
       //if in LS has no product, update props.setState directly in order to update LS
-      if (!props.selectedProducts) {
-        props.setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
+      if (!selectedProducts && id) {
+        setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
       } //check if existing array in LS, if there any repeated product with same color
-      else if (props.selectedProducts.some((i) => i._id === id && i.color === color)) {
+      else if (selectedProducts?.some((i) => i._id === id && i.color === color)) {
+        console.log("entered");
         //create new array to handle change of state, then modify quantity accordingly, then update setState
-        let newArr = [];
-        for (const i of props.selectedProducts) {
+        let newArr: Props["selectedProducts"] = [];
+        for (const i of selectedProducts) {
           if (i._id === id && i.color === color) {
-            let num = parseInt(i.quantity) + parseInt(quantity);
-            i.quantity = num.toString();
+            let num = i.quantity + quantity;
+            i.quantity = num;
           }
           newArr.push(i);
         }
-        props.setSelectProducts(newArr);
+
+        setSelectProducts(newArr);
+
+        console.log(newArr);
       } //if no product is repeated, add new selected product to existing LS array
       else {
-        props.setSelectProducts((prev) => [...prev, { _id: id, quantity: quantity, color: color }]);
+        if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);
       }
     } // if color or quantity is incorrect, pop warning message
     else {
@@ -135,6 +152,6 @@ function OneProduct(props) {
       )}
     </>
   );
-}
+};
 
 export default OneProduct;

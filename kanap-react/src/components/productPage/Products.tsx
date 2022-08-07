@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/products.css";
-
-interface IData {
-  _id: string;
-  imageUrl: string;
-  altTxt: string;
-  name: string;
-  description: string;
-}
+import { IData } from "../../assets/Interface";
 
 function Products() {
   const [error, setError] = useState<boolean | null>(null);
