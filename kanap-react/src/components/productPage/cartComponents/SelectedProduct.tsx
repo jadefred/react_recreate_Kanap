@@ -1,21 +1,44 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, FC } from "react";
+import { IData, ILocalStorage } from "../../../assets/Interface";
 
-function SelectedProduct({ selectedProducts, setSelectProducts, items, isLoaded, totalQuantity, setTotalQuantity }) {
-  const [totalPrice, setTotalPrice] = useState(0);
+interface Props {
+  selectedProducts: ILocalStorage["selectedProducts"];
+  setSelectProducts(
+    selectedProducts: {
+      _id: string;
+      quantity: number;
+      color: string;
+    }[]
+  ): void;
+  items: IData[];
+  isLoaded: boolean;
+  totalQuantity: number;
+  setTotalQuantity: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const SelectedProduct: FC<Props> = ({
+  selectedProducts,
+  setSelectProducts,
+  items,
+  isLoaded,
+  totalQuantity,
+  setTotalQuantity,
+}) => {
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   //function to setTotalPrice by mapping out selected product, price times quantity, finally reduce to sum all num
   const getTotalPrice = useCallback(() => {
-    const priceOfEachItem = selectedProducts.map((i) => {
-      return items.find((obj) => obj._id === i._id).price * i.quantity;
+    const priceOfEachItem = selectedProducts?.map((i) => {
+      return items.find((obj) => obj._id === i._id)!.price * i.quantity;
     });
-    const result = priceOfEachItem.reduce((prev, current) => prev + parseInt(current), 0);
+    const result = priceOfEachItem!.reduce((prev, current) => prev + current, 0);
     setTotalPrice(result);
   }, [items, selectedProducts]);
 
   //update total quantity and total price when first render the page and whenever change of items quantity
   useEffect(() => {
     if (selectedProducts !== null && isLoaded) {
-      setTotalQuantity(selectedProducts.reduce((prev, current) => prev + parseInt(current.quantity), 0));
+      setTotalQuantity(selectedProducts.reduce((prev, current) => prev + current.quantity, 0));
       getTotalPrice();
     } else {
       setTotalQuantity(0);
@@ -23,41 +46,41 @@ function SelectedProduct({ selectedProducts, setSelectProducts, items, isLoaded,
   }, [isLoaded, selectedProducts, getTotalPrice, setTotalQuantity]);
 
   //onChange function to modify quantity
-  function quantityChange(event, index) {
-    if (event.target.value <= 0 || event.target.value > 100) {
-      event.target.value = selectedProducts[index].quantity;
+  function quantityChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+    let targetNumber = parseInt(event.target.value);
+    if (targetNumber <= 0 || targetNumber > 100) {
+      targetNumber = selectedProducts![index].quantity;
     } else {
-      setSelectProducts((prev) => {
-        const newArr = [...prev];
-        newArr[index].quantity = event.target.value;
-        return newArr;
-      });
+      let newArr = selectedProducts;
+      newArr![index].quantity = targetNumber;
+      setSelectProducts(newArr!);
     }
   }
 
   //onClick to delete product
-  function deleteProduct(index) {
-    setSelectProducts((prev) => {
-      const newArr = [...prev];
-      newArr.splice(index, 1);
-      return newArr;
-    });
+  function deleteProduct(index: number) {
+    console.log("to delete");
+    const newArr = selectedProducts;
+    newArr?.splice(index, 1);
+    if (newArr) setSelectProducts(newArr);
+
+    console.log("reached the end");
   }
 
   return (
     <>
-      {selectedProducts.map((i, index) => {
+      {selectedProducts?.map((i, index) => {
         return (
           <div className="cart--card-of-product" key={i._id}>
             <div className="cart--card-of-product-img-box">
-              <img src={items.find((obj) => obj._id === i._id).imageUrl} alt={items.find((obj) => obj._id === i._id).altTxt} />
+              <img src={items.find((obj) => obj._id === i._id)?.imageUrl} alt={items.find((obj) => obj._id === i._id)?.altTxt} />
             </div>
 
             <div className="cart--card-of-product-info">
               <div className="cart--card-of-product-info-description-box">
-                <h2>{items.find((obj) => obj._id === i._id).name}</h2>
+                <h2>{items.find((obj) => obj._id === i._id)?.name}</h2>
                 <p>{i.color}</p>
-                <p>{items.find((obj) => obj._id === i._id).price * i.quantity}€</p>
+                <p>{items.find((obj) => obj._id === i._id)!.price * i.quantity}€</p>
               </div>
 
               <div className="cart--card-of-product-info-setting-box">
@@ -91,6 +114,6 @@ function SelectedProduct({ selectedProducts, setSelectProducts, items, isLoaded,
       )}
     </>
   );
-}
+};
 
 export default SelectedProduct;

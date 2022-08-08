@@ -14,14 +14,16 @@ import { ILocalStorage } from "./assets/Interface";
 
 function App() {
   //state to save selected product - initial value is null or any products saved in LS
-  const [selectedProducts, setSelectProducts] = useState<ILocalStorage["selectedProducts"]>([]);
+  const [selectedProducts, setSelectProducts] = useState<ILocalStorage["selectedProducts"] | null>(
+    JSON.parse(localStorage.getItem("products")!)
+  );
 
-  useEffect(() => {
-    const lsItem = localStorage.getItem("products");
-    if (lsItem && lsItem !== "undefined") {
-      setSelectProducts(JSON.parse(lsItem));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const lsItem = localStorage.getItem("products");
+  //   if (lsItem && lsItem !== "undefined") {
+  //     setSelectProducts(JSON.parse(lsItem));
+  //   }
+  // }, []);
 
   //when children - OneProduct setState, update local storage accordingly
   useEffect(() => {

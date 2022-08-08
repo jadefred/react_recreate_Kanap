@@ -21,6 +21,7 @@ const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
   const [items, setItems] = useState<IData[]>([]);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
 
+  console.log(selectedProducts);
   //fetch all products api
   useEffect(() => {
     const getAllProduct = async (): Promise<void> => {
@@ -42,7 +43,6 @@ const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
   }, []);
 
   const showEmptyMsg: boolean = selectedProducts?.length === 0 || selectedProducts === null ? true : false;
-
   return (
     <>
       <div className="cart-box">
@@ -59,7 +59,7 @@ const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
         {!error && showEmptyMsg && <p className="error-msg">Votre panier est vide</p>}
 
         {/* selected product, display when LS is presented and data is loaded */}
-        {selectedProducts !== null && isLoaded && (
+        {selectedProducts && isLoaded && (
           <SelectedProduct
             selectedProducts={selectedProducts}
             setSelectProducts={setSelectProducts}
