@@ -3,13 +3,7 @@ import { IData, ILocalStorage } from "../../../assets/Interface";
 
 interface Props {
   selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(
-    selectedProducts: {
-      _id: string;
-      quantity: number;
-      color: string;
-    }[]
-  ): void;
+  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
   items: IData[];
   isLoaded: boolean;
   totalQuantity: number;
@@ -37,7 +31,7 @@ const SelectedProduct: FC<Props> = ({
 
   //update total quantity and total price when first render the page and whenever change of items quantity
   useEffect(() => {
-    if (selectedProducts !== null && isLoaded) {
+    if (selectedProducts && isLoaded) {
       setTotalQuantity(selectedProducts.reduce((prev, current) => prev + current.quantity, 0));
       getTotalPrice();
     } else {
@@ -51,20 +45,22 @@ const SelectedProduct: FC<Props> = ({
     if (targetNumber <= 0 || targetNumber > 100) {
       targetNumber = selectedProducts![index].quantity;
     } else {
+      ///it can't set state then it won't trigger the useEffect in app in order to update LS
       let newArr = selectedProducts;
-      newArr![index].quantity = targetNumber;
-      setSelectProducts(newArr!);
+      newArr![index].quantity = parseInt(event.target.value);
+      if (newArr) {
+        setSelectProducts([...newArr]);
+      }
     }
   }
 
   //onClick to delete product
   function deleteProduct(index: number) {
-    console.log("to delete");
-    const newArr = selectedProducts;
+    let newArr = selectedProducts;
     newArr?.splice(index, 1);
-    if (newArr) setSelectProducts(newArr);
-
-    console.log("reached the end");
+    if (newArr) {
+      setSelectProducts([...newArr]);
+    }
   }
 
   return (

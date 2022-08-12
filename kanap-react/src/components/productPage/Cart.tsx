@@ -6,13 +6,7 @@ import { IData, ILocalStorage } from "../../assets/Interface";
 
 interface Props {
   selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(
-    selectedProducts: {
-      _id: string;
-      quantity: number;
-      color: string;
-    }[]
-  ): void;
+  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
 }
 
 const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
@@ -21,7 +15,6 @@ const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
   const [items, setItems] = useState<IData[]>([]);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
 
-  console.log(selectedProducts);
   //fetch all products api
   useEffect(() => {
     const getAllProduct = async (): Promise<void> => {

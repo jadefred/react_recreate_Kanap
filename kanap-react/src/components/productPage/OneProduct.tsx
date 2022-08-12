@@ -5,13 +5,7 @@ import { IData, ILocalStorage } from "../../assets/Interface";
 
 interface Props {
   selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(
-    selectedProducts: {
-      _id: string;
-      quantity: number;
-      color: string;
-    }[]
-  ): void;
+  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
 }
 
 const OneProduct: FC<Props> = ({ selectedProducts, setSelectProducts }) => {

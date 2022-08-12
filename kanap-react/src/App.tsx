@@ -18,13 +18,6 @@ function App() {
     JSON.parse(localStorage.getItem("products")!)
   );
 
-  // useEffect(() => {
-  //   const lsItem = localStorage.getItem("products");
-  //   if (lsItem && lsItem !== "undefined") {
-  //     setSelectProducts(JSON.parse(lsItem));
-  //   }
-  // }, []);
-
   //when children - OneProduct setState, update local storage accordingly
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(selectedProducts));
