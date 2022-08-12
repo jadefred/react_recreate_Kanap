@@ -18,4 +18,9 @@ interface ILocalStorage {
     | null;
 }
 
-export type { IData, ILocalStorage };
+interface IProductsState {
+  selectedProducts: ILocalStorage["selectedProducts"];
+  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
+}
+
+export type { IData, ILocalStorage, IProductsState };

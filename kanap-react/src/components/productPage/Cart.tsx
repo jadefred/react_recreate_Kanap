@@ -2,14 +2,9 @@ import React, { useState, useEffect, FC } from "react";
 import "../css/cart.css";
 import Form from "./cartComponents/Form";
 import SelectedProduct from "./cartComponents/SelectedProduct";
-import { IData, ILocalStorage } from "../../assets/Interface";
+import { IData, IProductsState } from "../../assets/Interface";
 
-interface Props {
-  selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
-}
-
-const Cart: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
+const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const [error, setError] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<IData[]>([]);

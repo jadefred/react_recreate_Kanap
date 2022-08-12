@@ -1,14 +1,9 @@
 import React, { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import "../css/oneProduct.css";
-import { IData, ILocalStorage } from "../../assets/Interface";
+import { IData, IProductsState } from "../../assets/Interface";
 
-interface Props {
-  selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
-}
-
-const OneProduct: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
+const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const { id } = useParams<string>();
   const [error, setError] = useState<boolean | null>(null);
   const [item, setItem] = useState<IData>();
@@ -61,7 +56,7 @@ const OneProduct: FC<Props> = ({ selectedProducts, setSelectProducts }) => {
       else if (selectedProducts?.some((i) => i._id === id && i.color === color)) {
         console.log("entered");
         //create new array to handle change of state, then modify quantity accordingly, then update setState
-        let newArr: Props["selectedProducts"] = [];
+        let newArr: IProductsState["selectedProducts"] = [];
         for (const i of selectedProducts) {
           if (i._id === id && i.color === color) {
             let num = i.quantity + quantity;

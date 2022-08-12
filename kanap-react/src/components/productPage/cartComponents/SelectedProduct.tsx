@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, FC } from "react";
-import { IData, ILocalStorage } from "../../../assets/Interface";
+import { IData, IProductsState } from "../../../assets/Interface";
 
 interface Props {
-  selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
+  selectedProducts: IProductsState["selectedProducts"];
+  setSelectProducts: IProductsState["setSelectProducts"];
   items: IData[];
   isLoaded: boolean;
   totalQuantity: number;
