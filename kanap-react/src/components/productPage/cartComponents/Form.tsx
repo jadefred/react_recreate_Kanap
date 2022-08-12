@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import { useNavigate } from "react-router";
+import { IProductsState } from "../../../assets/Interface";
 
-function Form(props) {
-  const [formValue, setFormValue] = useState({ firstName: "", lastName: "", address: "", city: "", email: "" });
-  const [errorMsg, setErrorMsg] = useState({ firstName: "", lastName: "", address: "", city: "", email: "" });
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+type FormInput = {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  email: string;
+};
+
+type Order = {
+  contact: FormInput;
+  products: string[];
+};
+
+type Options = {
+  method: string;
+  headers: {
+    "Content-Type": string;
+  };
+  body: string;
+};
+
+const Form: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
+  const [formValue, setFormValue] = useState<FormInput>({ firstName: "", lastName: "", address: "", city: "", email: "" });
+  const [errorMsg, setErrorMsg] = useState<FormInput>({ firstName: "", lastName: "", address: "", city: "", email: "" });
+  const emailPattern: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   let navigate = useNavigate();
 
-  function handleSubmit(e) {
+  function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (
       !formValue.firstName ||
@@ -37,19 +59,21 @@ function Form(props) {
       }
     } else {
       //prepare an array of selected products' id for POST
-      let products = [];
-      for (const i of props.selectedProducts) {
-        products.push(i._id);
+      let products: string[] = [];
+      if (selectedProducts) {
+        for (const i of selectedProducts) {
+          products.push(i._id);
+        }
       }
 
       //object which contain contact of client and his products' id
-      const order = {
+      const order: Order = {
         contact: formValue,
         products: products,
       };
 
       //Prepare post object
-      const options = {
+      const options: Options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(order),
@@ -61,13 +85,13 @@ function Form(props) {
   }
 
   //async to POST data to server
-  async function placeOrder(options) {
+  async function placeOrder(options: Options) {
     try {
       const response = await fetch("http://localhost:3000/api/products/order", options);
       const data = await response.json();
 
       //clear LS by update setState
-      props.setSelectProducts([]);
+      setSelectProducts([]);
 
       //redirect to confirmation page with query of order id
       navigate("/confirmation/" + data.orderId);
@@ -76,7 +100,7 @@ function Form(props) {
     }
   }
 
-  function handleFormInput(e) {
+  function handleFormInput(e: { target: { name: string; value: string } }) {
     const name = e.target.name;
     const value = e.target.value;
     setFormValue({ ...formValue, [name]: value });
@@ -118,6 +142,6 @@ function Form(props) {
       </div>
     </>
   );
-}
+};
 
 export default Form;
