@@ -8,7 +8,13 @@ export const selectedProductSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      state?.push(action.payload);
+      if (!state) {
+        state = [action.payload];
+        console.log("state was null", state);
+      } else {
+        state?.push(action.payload);
+        console.log("state was not null", state);
+      }
     },
   },
 });

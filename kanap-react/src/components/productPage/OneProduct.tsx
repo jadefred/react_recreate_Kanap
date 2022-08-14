@@ -2,6 +2,9 @@ import React, { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import "../css/oneProduct.css";
 import { IData, IProductsState } from "../../assets/Interface";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../app/store";
+import { addProduct } from "../../features/selectedProductSlice";
 
 const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const { id } = useParams<string>();
@@ -11,6 +14,10 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
   const [color, setColor] = useState<string>("");
   const [missingColor, setMissingColor] = useState<boolean>(false);
   const [missingQuantity, setMissingQuantity] = useState<boolean>(false);
+
+  //test redux
+  const testSelectedProduct = useSelector((state: any) => state.selectedProduct);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getOneProduct = async () => {
@@ -51,7 +58,8 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
     if (quantity > 0 && quantity <= 100 && color) {
       //if in LS has no product, update props.setState directly in order to update LS
       if (!selectedProducts && id) {
-        setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
+        //setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
+        dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
       } //check if existing array in LS, if there any repeated product with same color
       else if (selectedProducts?.some((i) => i._id === id && i.color === color)) {
         //create new array to handle change of state, then modify quantity accordingly, then update setState
