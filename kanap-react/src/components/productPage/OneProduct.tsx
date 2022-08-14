@@ -54,7 +54,6 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
         setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
       } //check if existing array in LS, if there any repeated product with same color
       else if (selectedProducts?.some((i) => i._id === id && i.color === color)) {
-        console.log("entered");
         //create new array to handle change of state, then modify quantity accordingly, then update setState
         let newArr: IProductsState["selectedProducts"] = [];
         for (const i of selectedProducts) {
