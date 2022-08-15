@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import "../css/oneProduct.css";
 import { IData, IProductsState } from "../../assets/Interface";
 import { useDispatch } from "react-redux";
-import { useSelector } from "../../app/store";
-import { addProduct } from "../../features/selectedProductSlice";
+import { useSelector, RootState } from "../../app/store";
+import { addProduct, addSameColorProduct } from "../../features/selectedProductSlice";
 
 const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const { id } = useParams<string>();
@@ -16,8 +16,10 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
   const [missingQuantity, setMissingQuantity] = useState<boolean>(false);
 
   //test redux
-  const testSelectedProduct = useSelector((state: any) => state.selectedProduct);
+  const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
   const dispatch = useDispatch();
+
+  console.log(testSelectedProduct);
 
   useEffect(() => {
     const getOneProduct = async () => {
@@ -57,22 +59,17 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
     //check if quantity and color is correct input
     if (quantity > 0 && quantity <= 100 && color) {
       //if in LS has no product, update props.setState directly in order to update LS
-      if (!selectedProducts && id) {
+      if (!testSelectedProduct && id) {
         //setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
         dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
-      } //check if existing array in LS, if there any repeated product with same color
-      else if (selectedProducts?.some((i) => i._id === id && i.color === color)) {
-        //create new array to handle change of state, then modify quantity accordingly, then update setState
-        let newArr: IProductsState["selectedProducts"] = [];
-        for (const i of selectedProducts) {
-          if (i._id === id && i.color === color) {
-            let num = i.quantity + quantity;
-            i.quantity = num;
-          }
-          newArr.push(i);
-        }
-        setSelectProducts(newArr);
-      } //if no product is repeated, add new selected product to existing LS array
+      }
+
+      //check if existing array in LS, if there any repeated product with same color
+      else if (testSelectedProduct?.some((i) => i._id === id && i.color === color)) {
+        dispatch(addSameColorProduct({ _id: id, quantity: quantity, color: color }));
+      }
+
+      //if no product is repeated, add new selected product to existing LS array
       else {
         if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);
       }
