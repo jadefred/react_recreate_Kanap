@@ -23,4 +23,10 @@ interface IProductsState {
   setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
 }
 
-export type { IData, ILocalStorage, IProductsState };
+type IPayload = {
+  _id: string;
+  quantity: number;
+  color: string;
+};
+
+export type { IData, ILocalStorage, IProductsState, IPayload };

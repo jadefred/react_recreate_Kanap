@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ILocalStorage, IProductsState } from "../assets/Interface";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ILocalStorage, IProductsState, IPayload } from "../assets/Interface";
 import { current } from "@reduxjs/toolkit";
 
 const initialState: ILocalStorage["selectedProducts"] | null = JSON.parse(localStorage.getItem("products")!);
@@ -8,7 +8,7 @@ export const selectedProductSlice = createSlice({
   name: "selectedProduct",
   initialState,
   reducers: {
-    addProduct: (state, action) => {
+    addProduct: (state, action: PayloadAction<IPayload>) => {
       if (!state) {
         console.log("state is null");
         state = [action.payload];
@@ -20,7 +20,7 @@ export const selectedProductSlice = createSlice({
         return [...current(state), action.payload];
       }
     },
-    addSameColorProduct: (state, action) => {
+    addSameColorProduct: (state, action: PayloadAction<IPayload>) => {
       //when user add same product more than once, modify quantity of state of products
       let newArr: IProductsState["selectedProducts"] = current(state);
 
