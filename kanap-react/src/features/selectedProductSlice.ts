@@ -70,9 +70,15 @@ export const selectedProductSlice = createSlice({
 
       return newArr;
     },
+
+    deleteProductReducer: (state, action: PayloadAction<number>) => {
+      const productObj: IAddProductPayload = current(state)![action.payload];
+      const filteredArr = current(state)?.filter((obj) => obj._id !== productObj._id && obj.color !== productObj.color);
+      return filteredArr;
+    },
   },
 });
 
-export const { addProduct, addSameColorProduct, updateProductQuantity } = selectedProductSlice.actions;
+export const { addProduct, addSameColorProduct, updateProductQuantity, deleteProductReducer } = selectedProductSlice.actions;
 
 export default selectedProductSlice.reducer;

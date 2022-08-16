@@ -3,7 +3,7 @@ import { IData, IProductsState } from "../../../assets/Interface";
 //redux
 import { useDispatch } from "react-redux";
 import { useSelector, RootState } from "../../../app/store";
-import { updateProductQuantity } from "../../../features/selectedProductSlice";
+import { updateProductQuantity, deleteProductReducer } from "../../../features/selectedProductSlice";
 
 interface Props {
   selectedProducts: IProductsState["selectedProducts"];
@@ -53,25 +53,13 @@ const SelectedProduct: FC<Props> = ({
     if (targetNumber <= 0 || targetNumber > 100) {
       targetNumber = testSelectedProduct![index].quantity;
     } else {
-      ///it can't set state then it won't trigger the useEffect in app in order to update LS
-      // let newArr = testSelectedProduct;
-      // newArr![index].quantity = parseInt(event.target.value);
-      // if (newArr) {
-      //   dispatch(updateProductQuantity([...newArr]));
-      //   //setSelectProducts([...newArr]);
-      // }
-
       dispatch(updateProductQuantity({ targetNumber, index }));
     }
   }
 
   //onClick to delete product
   function deleteProduct(index: number) {
-    let newArr = testSelectedProduct;
-    newArr?.splice(index, 1);
-    if (newArr) {
-      setSelectProducts([...newArr]);
-    }
+    dispatch(deleteProductReducer(index));
   }
 
   return (
