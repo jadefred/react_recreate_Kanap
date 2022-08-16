@@ -9,8 +9,14 @@ export const selectedProductSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      state = [action.payload];
-      return state;
+      if (!state) {
+        state = [action.payload];
+        return state;
+      }
+
+      if (current(state)!.length > 0) {
+        return [...current(state), action.payload];
+      }
     },
     addSameColorProduct: (state, action) => {
       let newArr: IProductsState["selectedProducts"] = [];

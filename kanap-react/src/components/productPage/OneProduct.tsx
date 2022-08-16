@@ -19,8 +19,6 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
   const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
   const dispatch = useDispatch();
 
-  console.log(testSelectedProduct);
-
   useEffect(() => {
     const getOneProduct = async () => {
       const response = await fetch(`http://localhost:3000/api/products/${id}`);
@@ -60,18 +58,24 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
     if (quantity > 0 && quantity <= 100 && color) {
       //if in LS has no product, update props.setState directly in order to update LS
       if (!testSelectedProduct && id) {
+        console.log("it was null");
         //setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
         dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
       }
 
       //check if existing array in LS, if there any repeated product with same color
       else if (testSelectedProduct?.some((i) => i._id === id && i.color === color)) {
+        console.log("same color block");
         dispatch(addSameColorProduct({ _id: id, quantity: quantity, color: color }));
       }
 
       //if no product is repeated, add new selected product to existing LS array
       else {
-        if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);
+        //if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);
+        if (id && testSelectedProduct) {
+          console.log("other color");
+          dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
+        }
       }
     } // if color or quantity is incorrect, pop warning message
     else {
