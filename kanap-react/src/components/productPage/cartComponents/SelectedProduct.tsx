@@ -3,7 +3,7 @@ import { IData, IProductsState, IAddProductPayload } from "../../../assets/Inter
 //redux
 import { useDispatch } from "react-redux";
 import { useSelector, RootState } from "../../../app/store";
-import { updateProductQuantity, deleteProductReducer } from "../../../features/selectedProductSlice";
+import { updateProduct } from "../../../features/selectedProductSlice";
 
 interface Props {
   selectedProducts: IProductsState["selectedProducts"];
@@ -69,19 +69,33 @@ const SelectedProduct: FC<Props> = ({
             }
           }
         }
-        dispatch(updateProductQuantity(newArr));
+        dispatch(updateProduct(newArr));
       }
       //state has only one object, directly assign with new value
       else {
         const newQuantityObj = { _id: objToBeModify._id, color: objToBeModify.color, quantity: targetNumber };
-        dispatch(updateProductQuantity([newQuantityObj]));
+        dispatch(updateProduct([newQuantityObj]));
       }
     }
   }
 
   //onClick to delete product
   function deleteProduct(index: number) {
-    dispatch(deleteProductReducer(index));
+    //if state has only one element, set state to empty array
+    if (testSelectedProduct!.length === 1) {
+      dispatch(updateProduct([]));
+    }
+    //create an empty array and loop through all element and push to array
+    //except the element which meant to be delete
+    else {
+      let newArr: IAddProductPayload[] = [];
+      for (let i = 0; i < testSelectedProduct!.length; i++) {
+        if (i !== index) {
+          newArr.push(testSelectedProduct![i]);
+        }
+        dispatch(updateProduct(newArr));
+      }
+    }
   }
 
   return (
