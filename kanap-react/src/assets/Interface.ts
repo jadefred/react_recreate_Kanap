@@ -29,9 +29,4 @@ type IAddProductPayload = {
   color: string;
 };
 
-type ImodifyQuantityPayload = {
-  targetNumber: number;
-  index: number
-}
-
-export type { IData, ILocalStorage, IProductsState, IAddProductPayload, ImodifyQuantityPayload };
+export type { IData, ILocalStorage, IProductsState, IAddProductPayload };

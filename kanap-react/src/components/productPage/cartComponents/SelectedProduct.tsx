@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, FC } from "react";
-import { IData, IProductsState } from "../../../assets/Interface";
+import { IData, IProductsState, IAddProductPayload } from "../../../assets/Interface";
 //redux
 import { useDispatch } from "react-redux";
 import { useSelector, RootState } from "../../../app/store";
@@ -53,7 +53,29 @@ const SelectedProduct: FC<Props> = ({
     if (targetNumber <= 0 || targetNumber > 100) {
       targetNumber = testSelectedProduct![index].quantity;
     } else {
-      dispatch(updateProductQuantity({ targetNumber, index }));
+      //copy obj of product which will be modified and assign with new quantity
+      const objToBeModify = testSelectedProduct![index];
+
+      //if the state has more than one object in the array
+      //use for loop to filter the irrelevant obj and push to empty job
+      if (testSelectedProduct!.length > 1) {
+        let newArr: IAddProductPayload[] = [];
+        if (testSelectedProduct) {
+          for (const i of testSelectedProduct) {
+            if (i._id === objToBeModify._id && i.color === objToBeModify.color) {
+              newArr.push({ _id: i._id, color: i.color, quantity: targetNumber });
+            } else {
+              newArr.push(i);
+            }
+          }
+        }
+        dispatch(updateProductQuantity(newArr));
+      }
+      //state has only one object, directly assign with new value
+      else {
+        const newQuantityObj = { _id: objToBeModify._id, color: objToBeModify.color, quantity: targetNumber };
+        dispatch(updateProductQuantity([newQuantityObj]));
+      }
     }
   }
 
@@ -66,7 +88,7 @@ const SelectedProduct: FC<Props> = ({
     <>
       {testSelectedProduct?.map((i, index) => {
         return (
-          <div className="cart--card-of-product" key={i._id}>
+          <div className="cart--card-of-product" key={`${i._id}-${i.color}`}>
             <div className="cart--card-of-product-img-box">
               <img src={items.find((obj) => obj._id === i._id)?.imageUrl} alt={items.find((obj) => obj._id === i._id)?.altTxt} />
             </div>

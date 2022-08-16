@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ILocalStorage, IProductsState, IAddProductPayload, ImodifyQuantityPayload } from "../assets/Interface";
+import { ILocalStorage, IProductsState, IAddProductPayload } from "../assets/Interface";
 import { current } from "@reduxjs/toolkit";
 
 const initialState: ILocalStorage["selectedProducts"] | null = JSON.parse(localStorage.getItem("products")!);
@@ -51,24 +51,8 @@ export const selectedProductSlice = createSlice({
       return newArr;
     },
 
-    updateProductQuantity: (state, action: PayloadAction<ImodifyQuantityPayload>) => {
-      let newArr: IProductsState["selectedProducts"] = current(state);
-
-      const productObj: IAddProductPayload = current(state)![action.payload.index];
-      const newPayload: IAddProductPayload = {
-        _id: productObj._id,
-        color: productObj.color,
-        quantity: action.payload.targetNumber,
-      };
-
-      if (newArr!.length > 1) {
-        const filteredArr = newArr?.filter((obj) => obj._id !== productObj._id && obj.color !== productObj.color);
-        newArr = [...filteredArr!, newPayload];
-      } else {
-        newArr = [newPayload];
-      }
-
-      return newArr;
+    updateProductQuantity: (state, action: PayloadAction<IAddProductPayload[]>) => {
+      return [...action.payload];
     },
 
     deleteProductReducer: (state, action: PayloadAction<number>) => {
