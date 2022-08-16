@@ -65,7 +65,7 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
 
       //check if existing array in LS, if there any repeated product with same color
       else if (testSelectedProduct?.some((i) => i._id === id && i.color === color)) {
-        console.log("same color block");
+        console.log("same color");
         dispatch(addSameColorProduct({ _id: id, quantity: quantity, color: color }));
       }
 
