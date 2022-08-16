@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ILocalStorage, IProductsState, IPayload } from "../assets/Interface";
+import { ILocalStorage, IProductsState, IAddProductPayload, ImodifyQuantityPayload } from "../assets/Interface";
 import { current } from "@reduxjs/toolkit";
 
 const initialState: ILocalStorage["selectedProducts"] | null = JSON.parse(localStorage.getItem("products")!);
@@ -8,7 +8,7 @@ export const selectedProductSlice = createSlice({
   name: "selectedProduct",
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<IPayload>) => {
+    addProduct: (state, action: PayloadAction<IAddProductPayload>) => {
       if (!state) {
         state = [action.payload];
         return state;
@@ -18,7 +18,7 @@ export const selectedProductSlice = createSlice({
         return [...current(state), action.payload];
       }
     },
-    addSameColorProduct: (state, action: PayloadAction<IPayload>) => {
+    addSameColorProduct: (state, action: PayloadAction<IAddProductPayload>) => {
       //when user add same product more than once, modify quantity of state of products
       let newArr: IProductsState["selectedProducts"] = [];
 
@@ -27,7 +27,11 @@ export const selectedProductSlice = createSlice({
           if (i._id === action.payload._id && i.color === action.payload.color) {
             //calculate the new quantity of product
             const newQuantity: number = action.payload.quantity + i.quantity;
-            const newPayload = { _id: action.payload._id, color: action.payload.color, quantity: newQuantity };
+            const newPayload: IAddProductPayload = {
+              _id: action.payload._id,
+              color: action.payload.color,
+              quantity: newQuantity,
+            };
 
             //if length of state is larger than 1, filter the repeated obj and push the newPayload to the array
             if (newArr!.length > 1) {
@@ -46,9 +50,29 @@ export const selectedProductSlice = createSlice({
 
       return newArr;
     },
+
+    updateProductQuantity: (state, action: PayloadAction<ImodifyQuantityPayload>) => {
+      let newArr: IProductsState["selectedProducts"] = current(state);
+
+      const productObj: IAddProductPayload = current(state)![action.payload.index];
+      const newPayload: IAddProductPayload = {
+        _id: productObj._id,
+        color: productObj.color,
+        quantity: action.payload.targetNumber,
+      };
+
+      if (newArr!.length > 1) {
+        const filteredArr = newArr?.filter((obj) => obj._id !== productObj._id && obj.color !== productObj.color);
+        newArr = [...filteredArr!, newPayload];
+      } else {
+        newArr = [newPayload];
+      }
+
+      return newArr;
+    },
   },
 });
 
-export const { addProduct, addSameColorProduct } = selectedProductSlice.actions;
+export const { addProduct, addSameColorProduct, updateProductQuantity } = selectedProductSlice.actions;
 
 export default selectedProductSlice.reducer;

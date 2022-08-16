@@ -23,10 +23,15 @@ interface IProductsState {
   setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
 }
 
-type IPayload = {
+type IAddProductPayload = {
   _id: string;
   quantity: number;
   color: string;
 };
 
-export type { IData, ILocalStorage, IProductsState, IPayload };
+type ImodifyQuantityPayload = {
+  targetNumber: number;
+  index: number
+}
+
+export type { IData, ILocalStorage, IProductsState, IAddProductPayload, ImodifyQuantityPayload };

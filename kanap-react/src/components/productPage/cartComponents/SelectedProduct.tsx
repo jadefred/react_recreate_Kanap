@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useCallback, FC } from "react";
 import { IData, IProductsState } from "../../../assets/Interface";
+//redux
+import { useDispatch } from "react-redux";
+import { useSelector, RootState } from "../../../app/store";
+import { updateProductQuantity } from "../../../features/selectedProductSlice";
 
 interface Props {
   selectedProducts: IProductsState["selectedProducts"];
@@ -20,43 +24,50 @@ const SelectedProduct: FC<Props> = ({
 }) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
+  //redux
+  const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
+  const dispatch = useDispatch();
+
   //function to setTotalPrice by mapping out selected product, price times quantity, finally reduce to sum all num
   const getTotalPrice = useCallback(() => {
-    const priceOfEachItem = selectedProducts?.map((i) => {
+    const priceOfEachItem = testSelectedProduct?.map((i) => {
       return items.find((obj) => obj._id === i._id)!.price * i.quantity;
     });
     const result = priceOfEachItem!.reduce((prev, current) => prev + current, 0);
     setTotalPrice(result);
-  }, [items, selectedProducts]);
+  }, [items, testSelectedProduct]);
 
   //update total quantity and total price when first render the page and whenever change of items quantity
   useEffect(() => {
-    if (selectedProducts && isLoaded) {
-      setTotalQuantity(selectedProducts.reduce((prev, current) => prev + current.quantity, 0));
+    if (testSelectedProduct && isLoaded) {
+      setTotalQuantity(testSelectedProduct.reduce((prev, current) => prev + current.quantity, 0));
       getTotalPrice();
     } else {
       setTotalQuantity(0);
     }
-  }, [isLoaded, selectedProducts, getTotalPrice, setTotalQuantity]);
+  }, [isLoaded, getTotalPrice, setTotalQuantity, testSelectedProduct]);
 
   //onChange function to modify quantity
   function quantityChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
     let targetNumber = parseInt(event.target.value);
     if (targetNumber <= 0 || targetNumber > 100) {
-      targetNumber = selectedProducts![index].quantity;
+      targetNumber = testSelectedProduct![index].quantity;
     } else {
       ///it can't set state then it won't trigger the useEffect in app in order to update LS
-      let newArr = selectedProducts;
-      newArr![index].quantity = parseInt(event.target.value);
-      if (newArr) {
-        setSelectProducts([...newArr]);
-      }
+      // let newArr = testSelectedProduct;
+      // newArr![index].quantity = parseInt(event.target.value);
+      // if (newArr) {
+      //   dispatch(updateProductQuantity([...newArr]));
+      //   //setSelectProducts([...newArr]);
+      // }
+
+      dispatch(updateProductQuantity({ targetNumber, index }));
     }
   }
 
   //onClick to delete product
   function deleteProduct(index: number) {
-    let newArr = selectedProducts;
+    let newArr = testSelectedProduct;
     newArr?.splice(index, 1);
     if (newArr) {
       setSelectProducts([...newArr]);
@@ -65,7 +76,7 @@ const SelectedProduct: FC<Props> = ({
 
   return (
     <>
-      {selectedProducts?.map((i, index) => {
+      {testSelectedProduct?.map((i, index) => {
         return (
           <div className="cart--card-of-product" key={i._id}>
             <div className="cart--card-of-product-img-box">
@@ -101,7 +112,7 @@ const SelectedProduct: FC<Props> = ({
         );
       })}
 
-      {selectedProducts !== null && totalQuantity > 0 && (
+      {testSelectedProduct !== null && totalQuantity > 0 && (
         <div className="cart--card-of-price">
           <p>
             Total ({totalQuantity} articles) : {totalPrice}.00 €

@@ -15,7 +15,7 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
   const [missingColor, setMissingColor] = useState<boolean>(false);
   const [missingQuantity, setMissingQuantity] = useState<boolean>(false);
 
-  //test redux
+  //redux
   const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
   const dispatch = useDispatch();
 
@@ -58,14 +58,12 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
     if (quantity > 0 && quantity <= 100 && color) {
       //if in LS has no product, update props.setState directly in order to update LS
       if (!testSelectedProduct && id) {
-        console.log("it was null");
         //setSelectProducts([{ _id: id, quantity: quantity, color: color }]);
         dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
       }
 
       //check if existing array in LS, if there any repeated product with same color
       else if (testSelectedProduct?.some((i) => i._id === id && i.color === color)) {
-        console.log("same color");
         if (id) dispatch(addSameColorProduct({ _id: id, quantity: quantity, color: color }));
       }
 
@@ -73,7 +71,6 @@ const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts })
       else {
         //if (id && selectedProducts) setSelectProducts([...selectedProducts, { _id: id, quantity: quantity, color: color }]);
         if (id && testSelectedProduct) {
-          console.log("other color");
           dispatch(addProduct({ _id: id, quantity: quantity, color: color }));
         }
       }

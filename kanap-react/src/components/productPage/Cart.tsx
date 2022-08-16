@@ -4,11 +4,17 @@ import Form from "./cartComponents/Form";
 import SelectedProduct from "./cartComponents/SelectedProduct";
 import { IData, IProductsState } from "../../assets/Interface";
 
+//redux
+import { useSelector, RootState } from "../../app/store";
+
 const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const [error, setError] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<IData[]>([]);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
+
+  //redux
+  const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
 
   //fetch all products api
   useEffect(() => {
@@ -30,7 +36,7 @@ const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
     getAllProduct();
   }, []);
 
-  const showEmptyMsg: boolean = selectedProducts?.length === 0 || selectedProducts === null ? true : false;
+  const showEmptyMsg: boolean = testSelectedProduct?.length === 0 || testSelectedProduct === null ? true : false;
   return (
     <>
       <div className="cart-box">
@@ -47,7 +53,7 @@ const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
         {!error && showEmptyMsg && <p className="error-msg">Votre panier est vide</p>}
 
         {/* selected product, display when LS is presented and data is loaded */}
-        {selectedProducts && isLoaded && (
+        {testSelectedProduct && isLoaded && (
           <SelectedProduct
             selectedProducts={selectedProducts}
             setSelectProducts={setSelectProducts}
