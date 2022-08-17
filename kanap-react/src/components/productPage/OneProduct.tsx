@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import "../css/oneProduct.css";
-import { IData, IProductsState } from "../../assets/Interface";
+import { IData } from "../../assets/Interface";
 import { useDispatch } from "react-redux";
 import { useSelector, RootState } from "../../app/store";
 import { addProduct, addSameColorProduct } from "../../features/selectedProductSlice";
 
-const OneProduct: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
+const OneProduct: FC = () => {
   const { id } = useParams<string>();
   const [error, setError] = useState<boolean | null>(null);
   const [item, setItem] = useState<IData>();

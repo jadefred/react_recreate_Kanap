@@ -1,27 +1,18 @@
 import React, { useState, useEffect, useCallback, FC } from "react";
-import { IData, IProductsState, IAddProductPayload } from "../../../assets/Interface";
+import { IData, IAddProductPayload } from "../../../assets/Interface";
 //redux
 import { useDispatch } from "react-redux";
 import { useSelector, RootState } from "../../../app/store";
 import { updateProduct } from "../../../features/selectedProductSlice";
 
 interface Props {
-  selectedProducts: IProductsState["selectedProducts"];
-  setSelectProducts: IProductsState["setSelectProducts"];
   items: IData[];
   isLoaded: boolean;
   totalQuantity: number;
   setTotalQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SelectedProduct: FC<Props> = ({
-  selectedProducts,
-  setSelectProducts,
-  items,
-  isLoaded,
-  totalQuantity,
-  setTotalQuantity,
-}) => {
+const SelectedProduct: FC<Props> = ({ items, isLoaded, totalQuantity, setTotalQuantity }) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   //redux

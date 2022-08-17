@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //components
@@ -10,30 +9,15 @@ import Confirmation from "./components/productPage/Confirmation";
 import NotFound from "./components/productPage/NotFound";
 import Footer from "./components/Footer";
 
-import { ILocalStorage } from "./assets/Interface";
-
 function App() {
-  //state to save selected product - initial value is null or any products saved in LS
-  const [selectedProducts, setSelectProducts] = useState<ILocalStorage["selectedProducts"] | null>(
-    JSON.parse(localStorage.getItem("products")!)
-  );
-
-  //when children - OneProduct setState, update local storage accordingly
-  useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(selectedProducts));
-  }, [selectedProducts]);
-
   return (
     <>
       <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Products />} />
-          <Route
-            path="/products/:id"
-            element={<OneProduct selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />}
-          />
-          <Route path="/cart" element={<Cart selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />} />
+          <Route path="/products/:id" element={<OneProduct />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/confirmation/:orderId" element={<Confirmation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

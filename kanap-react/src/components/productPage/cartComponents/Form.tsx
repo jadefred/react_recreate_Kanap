@@ -1,7 +1,5 @@
 import { useState, FC } from "react";
 import { useNavigate } from "react-router";
-import { IProductsState } from "../../../assets/Interface";
-//redux
 import { useSelector, RootState } from "../../../app/store";
 import { useDispatch } from "react-redux";
 import { updateProduct } from "../../../features/selectedProductSlice";
@@ -27,13 +25,12 @@ type Options = {
   body: string;
 };
 
-const Form: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
+const Form: FC = () => {
   const [formValue, setFormValue] = useState<FormInput>({ firstName: "", lastName: "", address: "", city: "", email: "" });
   const [errorMsg, setErrorMsg] = useState<FormInput>({ firstName: "", lastName: "", address: "", city: "", email: "" });
   const emailPattern: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   let navigate = useNavigate();
 
-  //redux
   //redux
   const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
   const dispatch = useDispatch();

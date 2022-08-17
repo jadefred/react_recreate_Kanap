@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILocalStorage, IProductsState, IAddProductPayload } from "../assets/Interface";
 import { current } from "@reduxjs/toolkit";
 
-const initialState: ILocalStorage["selectedProducts"] | null = JSON.parse(localStorage.getItem("products")!);
+const initialState: ILocalStorage["selectedProducts"] = [];
 
 export const selectedProductSlice = createSlice({
   name: "selectedProduct",

@@ -2,12 +2,12 @@ import React, { useState, useEffect, FC } from "react";
 import "../css/cart.css";
 import Form from "./cartComponents/Form";
 import SelectedProduct from "./cartComponents/SelectedProduct";
-import { IData, IProductsState } from "../../assets/Interface";
+import { IData } from "../../assets/Interface";
 
 //redux
 import { useSelector, RootState } from "../../app/store";
 
-const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
+const Cart: FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<IData[]>([]);
@@ -54,20 +54,11 @@ const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
 
         {/* selected product, display when LS is presented and data is loaded */}
         {testSelectedProduct && isLoaded && (
-          <SelectedProduct
-            selectedProducts={selectedProducts}
-            setSelectProducts={setSelectProducts}
-            items={items}
-            isLoaded={isLoaded}
-            totalQuantity={totalQuantity}
-            setTotalQuantity={setTotalQuantity}
-          />
+          <SelectedProduct items={items} isLoaded={isLoaded} totalQuantity={totalQuantity} setTotalQuantity={setTotalQuantity} />
         )}
 
         {/* client info form, display when LS is presented*/}
-        {testSelectedProduct !== null && totalQuantity > 0 && (
-          <Form selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />
-        )}
+        {testSelectedProduct !== null && totalQuantity > 0 && <Form />}
       </div>
     </>
   );
