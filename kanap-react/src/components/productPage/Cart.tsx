@@ -65,7 +65,7 @@ const Cart: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
         )}
 
         {/* client info form, display when LS is presented*/}
-        {selectedProducts !== null && totalQuantity > 0 && (
+        {testSelectedProduct !== null && totalQuantity > 0 && (
           <Form selectedProducts={selectedProducts} setSelectProducts={setSelectProducts} />
         )}
       </div>

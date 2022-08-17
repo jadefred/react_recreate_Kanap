@@ -1,6 +1,10 @@
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { useNavigate } from "react-router";
 import { IProductsState } from "../../../assets/Interface";
+//redux
+import { useSelector, RootState } from "../../../app/store";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../../../features/selectedProductSlice";
 
 type FormInput = {
   firstName: string;
@@ -28,6 +32,11 @@ const Form: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
   const [errorMsg, setErrorMsg] = useState<FormInput>({ firstName: "", lastName: "", address: "", city: "", email: "" });
   const emailPattern: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   let navigate = useNavigate();
+
+  //redux
+  //redux
+  const testSelectedProduct = useSelector((state: RootState) => state.selectedProduct);
+  const dispatch = useDispatch();
 
   function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -60,8 +69,8 @@ const Form: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
     } else {
       //prepare an array of selected products' id for POST
       let products: string[] = [];
-      if (selectedProducts) {
-        for (const i of selectedProducts) {
+      if (testSelectedProduct) {
+        for (const i of testSelectedProduct) {
           products.push(i._id);
         }
       }
@@ -90,8 +99,8 @@ const Form: FC<IProductsState> = ({ selectedProducts, setSelectProducts }) => {
       const response = await fetch("http://localhost:3000/api/products/order", options);
       const data = await response.json();
 
-      //clear LS by update setState
-      setSelectProducts([]);
+      //set empty array to clear state
+      dispatch(updateProduct([]));
 
       //redirect to confirmation page with query of order id
       navigate("/confirmation/" + data.orderId);
