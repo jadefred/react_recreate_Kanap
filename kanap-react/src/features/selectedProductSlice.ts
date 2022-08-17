@@ -9,9 +9,8 @@ export const selectedProductSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action: PayloadAction<IAddProductPayload>) => {
-      if (!state) {
-        state = [action.payload];
-        return state;
+      if (!state || current(state)!.length === 0) {
+        return [action.payload];
       }
 
       if (state && current(state)!.length > 0) {
