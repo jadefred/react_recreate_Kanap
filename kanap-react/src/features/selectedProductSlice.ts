@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ILocalStorage, IProductsState, IAddProductPayload } from "../assets/Interface";
+import { IAddProductPayload, selectedProducts } from "../assets/Interface";
 import { current } from "@reduxjs/toolkit";
 
-const initialState: ILocalStorage["selectedProducts"] = [];
+const initialState: selectedProducts = [];
 
 export const selectedProductSlice = createSlice({
   name: "selectedProduct",
@@ -19,7 +19,7 @@ export const selectedProductSlice = createSlice({
     },
     addSameColorProduct: (state, action: PayloadAction<IAddProductPayload>) => {
       //when user add same product more than once, modify quantity of state of products
-      let newArr: IProductsState["selectedProducts"] = [];
+      let newArr: selectedProducts = [];
 
       if (state) {
         for (const i of current(state)) {

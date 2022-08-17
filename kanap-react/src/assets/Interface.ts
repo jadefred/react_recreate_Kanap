@@ -8,20 +8,11 @@ interface IData {
   colors: string[];
 }
 
-interface ILocalStorage {
-  selectedProducts:
-    | {
-        _id: string;
-        quantity: number;
-        color: string;
-      }[]
-    | null;
-}
-
-interface IProductsState {
-  selectedProducts: ILocalStorage["selectedProducts"];
-  setSelectProducts(selectedProducts: ILocalStorage["selectedProducts"]): void;
-}
+type selectedProducts = {
+  _id: string;
+  quantity: number;
+  color: string;
+}[];
 
 type IAddProductPayload = {
   _id: string;
@@ -29,4 +20,4 @@ type IAddProductPayload = {
   color: string;
 };
 
-export type { IData, ILocalStorage, IProductsState, IAddProductPayload };
+export type { IData, IAddProductPayload, selectedProducts };
