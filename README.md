@@ -1,6 +1,6 @@
 # About
 
-This project is to recreate the web page of Kanap - a project of OpenClassrooms with React and Typescript. The [original project](https://github.com/jadefred/OpenClassrooms_P5_Kanap) aimed to use JaveScript to build a frontend environment for a E-Commerce App.
+This project is to recreate the E-Commerce App - Kanap with React,  Typescript and Redux. It was one of the projects of OpenClassrooms which aimed to use Vanilla JaveScript to build a frontend environment for a web page. [Click to check original project](https://github.com/jadefred/OpenClassrooms_P5_Kanap)
 
 The backend of this project is provided by OpenClassrooms.
 <br />
@@ -9,6 +9,7 @@ The backend of this project is provided by OpenClassrooms.
 # Technologies
 
 - Using **React** and **Typescript** to build user interfaces based on UI components
+- **Reudx** for the state management
 
 <br />
 
